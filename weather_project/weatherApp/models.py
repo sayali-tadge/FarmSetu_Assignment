@@ -7,7 +7,7 @@ class YearlyWeatherData(models.Model):
 
         region = models.CharField(max_length=100)
         parameter = models.CharField(max_length=100)
-        year = models.IntegerField(unique=True)
+        year = models.IntegerField(unique=False)
         jan = models.FloatField(null=True, blank=True)
         feb = models.FloatField(null=True, blank=True)
         mar = models.FloatField(null=True, blank=True)
