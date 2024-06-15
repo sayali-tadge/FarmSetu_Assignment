@@ -1,23 +1,49 @@
 # weather/views.py
 import requests
-import pandas as pd
+from django.shortcuts import render
+from rest_framework import viewsets, filters
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import YearlyWeatherData
-from .serializers import YearlyWeatherDataSerializer, URLInputSerializer
-import re
-import csv
+from .serializers import YearlyWeatherDataSerializer
 
-class YearlyWeatherDataListCreate(generics.ListCreateAPIView):
+# view to get all data from model
+class YearlyWeatherDataList(generics.ListCreateAPIView):
     queryset = YearlyWeatherData.objects.all()
     serializer_class = YearlyWeatherDataSerializer
+    
+    
+# view to filter data as per given input
+class WeatherDataViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = YearlyWeatherData.objects.all()
+    serializer_class = YearlyWeatherDataSerializer
+    filter_backends = [filters.OrderingFilter]
 
+    def get_queryset(self):
+        queryset = YearlyWeatherData.objects.all()
+        region = self.request.query_params.get('region', None)
+        parameter = self.request.query_params.get('parameter', None)
+        year = self.request.query_params.get('year', None)
+
+        if region:
+            queryset = queryset.filter(region=region)
+        if parameter:
+            queryset = queryset.filter(parameter=parameter)
+        if year:
+            queryset = queryset.filter(year=year)
+
+        return queryset
+        # return render(request, 'weather_data.html')
+
+# get data ap per primary key
 class YearlyWeatherDataDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = YearlyWeatherData.objects.all()
     serializer_class = YearlyWeatherDataSerializer
+    
+    
 
-
+# main view to parse data from text file url and save it into local database
 class WeatherDataAPI(APIView):
     def post(self, request):
         region = request.data.get('region')
@@ -68,6 +94,7 @@ class WeatherDataAPI(APIView):
         
         except requests.exceptions.RequestException as e:
             return Response({'error': f'Failed to fetch data from URL: {url}. Error: {str(e)}'}, status=400)
+
 
 
 
