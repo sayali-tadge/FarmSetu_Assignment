@@ -1,7 +1,9 @@
+# weather/urls.py
 from django.urls import path
-from . import views  # Import views from the same directory
+from .views import YearlyWeatherDataListCreate, YearlyWeatherDataDetail, WeatherDataAPI
 
 urlpatterns = [
-    # path('', views.index, name='index'),  # Example URL pattern
-    # Add other URL patterns here
+    path('weather/', YearlyWeatherDataListCreate.as_view(), name='weather-list-create'),
+    path('weather/<int:pk>/', YearlyWeatherDataDetail.as_view(), name='weather-detail'),
+    path('parse-weather-data/', WeatherDataAPI.as_view(), name='parse-weather-data'),
 ]
