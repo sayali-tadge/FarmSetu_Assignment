@@ -1,4 +1,3 @@
-# weather/models.py
 from django.db import models
 
 class YearlyWeatherData(models.Model):
@@ -27,4 +26,4 @@ class YearlyWeatherData(models.Model):
         ann = models.FloatField(null=True, blank=True)
 
         def __str__(self):
-            return f'Weather Data for {self.year}'
+            return f'{self.region} {self.parameter} {self.year}'

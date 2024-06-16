@@ -1,13 +1,12 @@
-# weather/serializers.py
 from rest_framework import serializers
 from .models import YearlyWeatherData
 
-# class YearlyWeatherDataSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = YearlyWeatherData
-#         fields = '__all__'
-
 class YearlyWeatherDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = YearlyWeatherData
+        fields = '__all__'
+
+class WeatherDataFilterSerializer(serializers.ModelSerializer):
         monthly_data = serializers.SerializerMethodField()
 
         class Meta:
