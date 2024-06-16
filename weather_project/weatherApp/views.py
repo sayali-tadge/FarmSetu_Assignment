@@ -25,6 +25,7 @@ class WeatherDataViewSet(viewsets.ReadOnlyModelViewSet):
         region = self.request.query_params.get('region', None)
         parameter = self.request.query_params.get('parameter', None)
         year = self.request.query_params.get('year', None)
+        month = self.request.query_params.get('month', None)
 
         if region:
             queryset = queryset.filter(region=region)
@@ -32,9 +33,24 @@ class WeatherDataViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(parameter=parameter)
         if year:
             queryset = queryset.filter(year=year)
+        
+        if month:
+            month = month.lower()
+            if month in ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']:
+                queryset = queryset.exclude(**{month: None})
+                for item in queryset:
+                    data = {month: getattr(item, month)}
+                    item.monthly_data = data
 
         return queryset
-        # return render(request, 'weather_data.html')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+def filter_view(request):
+    return render(request, 'weatherApp/filterData.html')
 
 # get data ap per primary key
 class YearlyWeatherDataDetail(generics.RetrieveUpdateDestroyAPIView):
