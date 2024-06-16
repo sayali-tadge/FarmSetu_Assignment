@@ -15,7 +15,7 @@ Ensure you have the following installed:
 
 1. **Clone the repository**:
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/sayali-tadge/FarmSetu_Assignment.git
     cd weather_project
     ```
 
