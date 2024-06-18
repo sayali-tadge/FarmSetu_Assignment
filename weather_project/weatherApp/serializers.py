@@ -22,5 +22,5 @@ class WeatherDataFilterSerializer(serializers.ModelSerializer):
                     return {month: getattr(obj, month)}
             return None
 
-class URLInputSerializer(serializers.Serializer):
-    url = serializers.URLField()
+# class URLInputSerializer(serializers.Serializer):
+#     url = serializers.URLField()

@@ -13,7 +13,7 @@ class WeatherDataAPI(APIView):
     def post(self, request):
         region = request.data.get('region')
         parameter = request.data.get('parameter')
-        url = request.data.get('url', '')
+        url = request.data.get('url')
         
         try:
             response = requests.get(url)
@@ -24,6 +24,7 @@ class WeatherDataAPI(APIView):
             
             for line in data_lines:
                 values = line.split()
+                # print(values)
                 if len(values) < 18:
                     continue  # Skip lines that don't have enough data
                 

@@ -22,8 +22,4 @@ class WeatherDataAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
-    # def test_filter_by_month(self):
-    #     url = reverse('weatherdata-filter')
-    #     response = self.client.get(url, {'region': 'Scotland', 'parameter': 'Rainfall', 'year': 2020, 'month': 'jan'})
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data[0]['jan'], 10.0)
+

@@ -1,5 +1,5 @@
 import requests
-from .models import WeatherData
+from .models import YearlyWeatherData
 
 def fetch_weather_data():
     url = "https://www.metoffice.gov.uk/pub/data/weather/uk/climate/datasets/Rainfall/ranked/Scotland.txt"
@@ -35,4 +35,4 @@ def fetch_weather_data():
             'aut': float(values[16]),
             'ann': float(values[17]),
         }
-        WeatherData.objects.update_or_create(year=year, defaults=data)
+        YearlyWeatherData.objects.update_or_create(year=year, defaults=data)
